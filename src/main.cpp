@@ -2,7 +2,10 @@
 #include <SFML/Window.hpp>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Optical illusion");
+    float screenWidth = 1000.f;
+    float screenHeight = 1000.f;
+    sf::RenderWindow window(
+        sf::VideoMode(screenWidth, screenHeight), "Optical illusion");
 
     sf::Texture image;
     if (image.loadFromFile(
@@ -30,6 +33,14 @@ int main() {
         }
 
         window.clear();
+        // rotate sprite from center
+        sf::FloatRect spriteRect = spiral.getLocalBounds();
+        spiral.setOrigin(
+            spriteRect.left + spriteRect.width / 2.0f,
+            spriteRect.top + spriteRect.height / 2.0f);
+        spiral.setPosition(
+            sf::Vector2f(screenWidth / 2.0f, screenHeight / 2.0f));
+        spiral.rotate(1.f);
         window.draw(spiral);
         window.display();
     }
