@@ -8,7 +8,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Build type flags
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 -fstack-clash-protection -fstack-protector-all")
+set(CMAKE_CXX_FLAGS_DEBUG "-g3 -fstack-protector-all")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fdelete-null-pointer-checks")
 
 # Set C++ standard
@@ -19,7 +19,7 @@ add_executable(optical_illusion src/main.cpp)
 target_link_libraries(optical_illusion sfml-graphics sfml-window)
 
 # Warning flags
-target_compile_options(main PRIVATE
+target_compile_options(optical_illusion PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wformat-security -Wundef -Wconversion -Wpedantic -Wformat=2>
 )
