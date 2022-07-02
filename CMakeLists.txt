@@ -15,6 +15,10 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fdelete-null-pointer-checks")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Find SFML library
+set(SFML_DIR SFML-2.5.1/lib/cmake/SFML/)
+find_package(SFML 2.5.1 COMPONENTS graphics window system audio network REQUIRED)
+
 add_executable(optical_illusion src/main.cpp)
 target_link_libraries(optical_illusion sfml-graphics sfml-window)
 
