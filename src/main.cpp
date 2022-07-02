@@ -2,32 +2,35 @@
 #include <SFML/Window.hpp>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Optical illusion");
-    sf::CircleShape shape(5.f);
-    shape.setFillColor(sf::Color::Black);
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "Optical illusion");
 
-    // Put shape in center of the window
-    shape.setPosition(
-        (window.getSize().x / 2.f) - shape.getRadius(),
-        (window.getSize().y / 2.f) - shape.getRadius());
+    sf::Texture image;
+    if (image.loadFromFile(
+            "../src/spiral.jpg", sf::IntRect(0, 0, 1000, 1000))) {
+        image.setSmooth(true);
+    } else {
+        window.close();
+    }
+
+    sf::Sprite spiral;
+    spiral.setTexture(image);
 
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Resized) {
-                // Don't resize objects on window resize
-                sf::FloatRect view(0, 0, event.size.width, event.size.height);
-                window.setView(sf::View(view));
-                shape.setPosition(
-                        (window.getSize().x / 2.f) - shape.getRadius(),
-                        (window.getSize().y / 2.f) - shape.getRadius());
+                // Fill spiral sprite in window
+                sf::Vector2f newSize(window.getView().getSize());
+                spiral.setScale(
+                    newSize.x / spiral.getLocalBounds().width,
+                    newSize.y / spiral.getLocalBounds().height);
             }
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        window.clear(sf::Color::White);
-        window.draw(shape);
+        window.clear();
+        window.draw(spiral);
         window.display();
     }
 
